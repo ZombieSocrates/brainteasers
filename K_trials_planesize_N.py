@@ -12,27 +12,32 @@ def plot_cumulative_plane_processes(K, N, pltgrid_x = 1, pltgrid_y = 1):
 	entire process listed above x * y times.  Defaults to a single
 	one-by-one plot
 	'''
-	#fig = plt.figure()
-	#for subplot in range(pltgrid_x * pltgrid_y):
-	#	ax = plt.subplot(pltgrid_x, pltgrid_y, subplot + 1)
-	trial_index = np.arange(1, K + 1)
-	trial_values = np.zeros(K)
 
-	for i in range(len(trial_values)):
-		trial_values[i] = pp.plane_process(N)
+	X = np.arange(1, K + 1)
 
-	#		ax.plot(x = trial_index, y = (np.cumsum(trial_values)*1.0)/trial_index)
-	#		ax.set_xlim(0,K)
-	#		ax.set_ylim(0,1)
+	for b in range(pltgrid_x * pltgrid_y):
+		ax = plt.subplot(pltgrid_x, pltgrid_y, b + 1)
+		Y = np.array([pp.plane_process(N) for i in X])
+		# Plots out individual points if number of trials K
+		# <= 10, otherwise plots a line
+		ax.plot(X, np.cumsum(Y)*1.0/X, 'bo' if K <= 10 else 'b-')
+		ax.set_xlim(min(X), max(X))
+		ax.set_ylim(0,1)
 
-	#plt.show()
-	return trial_index, np.cumsum(trial_values)/trial_index
+	plt.show()
 
 
 #Just for debugging...
 if __name__ == '__main__':
-	X, Y = plot_cumulative_plane_processes(4, 10, pltgrid_x = 1, pltgrid_y = 1)
-	plt.plot(X,Y, 'bo')
-	plt.xlim(min(X), max(X))
-	plt.ylim(0,1)
-	plt.show()
+	plot_cumulative_plane_processes(100, 100, pltgrid_x = 2, pltgrid_y = 2)
+
+
+
+'''
+TO DO:
+
+* Add informative labels for the figure returned by `plot_cumulative_plane_process`
+* Change the function so that it saves the file to a .png, perhaps clearing out any 
+  extant png files as well.
+'''
+	
