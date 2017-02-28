@@ -18,18 +18,27 @@ def plot_cumulative_plane_processes(K, N, pltgrid_x = 1, pltgrid_y = 1):
 	for b in range(pltgrid_x * pltgrid_y):
 		ax = plt.subplot(pltgrid_x, pltgrid_y, b + 1)
 		Y = np.array([pp.plane_process(N) for i in X])
-		# Plots out individual points if number of trials K
-		# <= 10, otherwise plots a line
-		ax.plot(X, np.cumsum(Y)*1.0/X, 'bo' if K <= 10 else 'b-')
+		ax.plot(X, np.cumsum(Y) * 1.0/X, 'bo' if K <= 10 else 'b-')
 		ax.set_xlim(min(X), max(X))
+		ax.set_xlabel('Number of Trials')
 		ax.set_ylim(0,1)
-
+		ax.set_ylabel('Success Rate')
+		cum_prob = sum(Y) * 1.0/len(Y)
+		ax.set_title("Success Rate for %s Trials: %.2f" % (K, cum_prob))
+    
+	#plt.gca().set_figsize_inches((10,10))
+	plt.suptitle("Crazy Plane with %s Seats: %s batches of %s trials"\
+                  % (N, pltgrid_x * pltgrid_y, K))
+	plt.tight_layout()
 	plt.show()
 
 
 #Just for debugging...
 if __name__ == '__main__':
-	plot_cumulative_plane_processes(100, 100, pltgrid_x = 2, pltgrid_y = 2)
+	N = int(input("Choose seats on plane: "))
+	K = int(input("Choose number of trials: "))
+	print("Running four batches of trials with above specifications")
+	plot_cumulative_plane_processes(K, N, pltgrid_x = 2, pltgrid_y = 2)
 
 
 
