@@ -19,7 +19,8 @@ def ensure_plot_dir(subdir_name):
 		pass
 
 
-def plot_cumulative_plane_processes(K, N, pltgrid_x = 1, pltgrid_y = 1):
+def plot_cumulative_plane_processes(K, N, pltgrid_x = 1, pltgrid_y = 1,\
+									save_subdir = None):
 	'''
 	Performs K trials of the "crazy plane" process defined in the
 	`plane_process.py` module for a plane with N seats.  Returns plots of
@@ -28,6 +29,12 @@ def plot_cumulative_plane_processes(K, N, pltgrid_x = 1, pltgrid_y = 1):
 	The arguments pltgrid_x and pltgrid_y allow for a repeat of the 
 	entire process listed above x * y times.  Defaults to a single
 	one-by-one plot
+
+	The optional argument `save_subdir` allows the user to choose
+	a subdirectory for saving the output the plot.  This should be the name
+	of a subdirectory relative to the directory from which you are running
+	the program.  Leaving this as `None` will display the results
+	instead of saving.
 	'''
 	# Define shared parts of all visuals: the entire figure, 
 	# an outer subplot, and the X axis.
@@ -61,7 +68,11 @@ def plot_cumulative_plane_processes(K, N, pltgrid_x = 1, pltgrid_y = 1):
                   % (N, pltgrid_x * pltgrid_y, K))
 	plt.tight_layout()
 	plt.subplots_adjust(top = 0.85)
-	plt.show()
+	if save_subdir:
+		target_dir = '/'.join([os.getcwd(), save_subdir])
+		fig.savefig(target_dir + '/Ktrials.png', dpi = fig.dpi)
+	else:
+		plt.show()
 
 
 #Just for debugging...
@@ -71,7 +82,8 @@ if __name__ == '__main__':
 	N = int(input("Choose seats on plane: "))
 	K = int(input("Choose number of trials: "))
 	print("Running four batches of trials with above specifications")
-	plot_cumulative_plane_processes(K, N, pltgrid_x = 2, pltgrid_y = 2)
+	plot_cumulative_plane_processes(K, N, pltgrid_x = 2, pltgrid_y = 2,\
+									save_subdir = 'plots')
 
 '''
 TO DO:
