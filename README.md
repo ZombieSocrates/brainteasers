@@ -5,8 +5,11 @@ Imagine there are a 100 people in line to board a plane with 100 seats, and for 
 
 This is a problem you can find stated in many places, [including but not limited to here](http://math.stackexchange.com/questions/5595/taking-seats-on-a-plane). Some goals that I have in this repo:
 
-* Write a generic function that emulates this seating process with a plane of arbitrary size N.
-* Write a master function that repeats K trials of this process with a given plane size N and plots out the cumulative probability of success.
+* Write a generic function `plane_process`that emulates this seating process with a plane of arbitrary size N.
+* Use this function to repeat K trials of this process with a given plane size N and plot out the cumulative probability of success. 
+	* Below you can find sample output from the most recent time I ran this code locally:
+	![Image](plots/100_trials_100_seats_plots.png)
+	
 * Perhaps write a similar graphing function that shows how the probability of success fluctuates with plane size N (or doesn't fluctuate, as the case may be)
 
 Implemented in Python 3.6.0
