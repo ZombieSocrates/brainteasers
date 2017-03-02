@@ -1,6 +1,23 @@
 import numpy as np
 from matplotlib import pyplot as plt 
-import plane_process as pp 
+import plane_process as pp
+import os
+
+def ensure_plot_dir(subdir_name):
+	'''
+	The `plot_cumulative_plane_process` function below
+	should save the plot created to a special subdirectory every
+	time it is run.  This helper function is meant to check if
+	that directory exists, and create it if it doesn't.
+	''' 
+	root = os.getcwd()
+	target_dir = '/'.join([root, subdir_name])
+	try:
+		os.makedirs(target_dir)
+	except FileExistsError as exception:
+		print('Directory %s already exists' % target_dir)
+		pass
+
 
 def plot_cumulative_plane_processes(K, N, pltgrid_x = 1, pltgrid_y = 1):
 	'''
@@ -49,6 +66,8 @@ def plot_cumulative_plane_processes(K, N, pltgrid_x = 1, pltgrid_y = 1):
 
 #Just for debugging...
 if __name__ == '__main__':
+	# Create a subdirectory of cwd to save off plots called 'plots'
+	ensure_plot_dir('plots')
 	N = int(input("Choose seats on plane: "))
 	K = int(input("Choose number of trials: "))
 	print("Running four batches of trials with above specifications")
