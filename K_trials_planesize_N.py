@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 import plane_process as pp
 import os
 
-def ensure_plot_dir(subdir_name):
+def create_or_clean_dir(subdir_name):
 	'''
 	The `plot_cumulative_plane_process` function below
 	should save the plot created to a special subdirectory every
@@ -15,12 +15,16 @@ def ensure_plot_dir(subdir_name):
 	try:
 		os.makedirs(target_dir)
 	except FileExistsError as exception:
-		print('Directory %s already exists' % target_dir)
+		print('Cleaning out subdirectory %s' % subdir_name)
+		contents = ['/'.join([target_dir, f]) for f in os.listdir(target_dir)\
+					 if f.endswith('.png')]
+		for f in contents:
+			os.remove(f)
 		pass
 
 
 def plot_cumulative_plane_processes(K, N, pltgrid_x = 1, pltgrid_y = 1,\
-									save_subdir = None):
+									subdir_name = None):
 	'''
 	Performs K trials of the "crazy plane" process defined in the
 	`plane_process.py` module for a plane with N seats.  Returns plots of
@@ -30,10 +34,10 @@ def plot_cumulative_plane_processes(K, N, pltgrid_x = 1, pltgrid_y = 1,\
 	entire process listed above x * y times.  Defaults to a single
 	one-by-one plot
 
-	The optional argument `save_subdir` allows the user to choose
-	a subdirectory for saving the output the plot.  This should be the name
+	The optional argument `subdir_name` allows the user to choose
+	a subdirectory for saving the output plot.  This should be the name
 	of a subdirectory relative to the directory from which you are running
-	the program.  Leaving this as `None` will display the results
+	the script.  Leaving this as `None` will display the results
 	instead of saving.
 	'''
 	# Define shared parts of all visuals: the entire figure, 
@@ -68,9 +72,10 @@ def plot_cumulative_plane_processes(K, N, pltgrid_x = 1, pltgrid_y = 1,\
                   % (N, pltgrid_x * pltgrid_y, K))
 	plt.tight_layout()
 	plt.subplots_adjust(top = 0.85)
-	if save_subdir:
-		target_dir = '/'.join([os.getcwd(), save_subdir])
-		fig.savefig(target_dir + '/Ktrials.png', dpi = fig.dpi)
+	if subdir_name:
+		target_dir = '/'.join([os.getcwd(), subdir_name])
+		plotlabel = '%s_trials_%s_seats_plots' % (K,N)
+		fig.savefig(target_dir + '/%s.png' % plotlabel, dpi = fig.dpi)
 	else:
 		plt.show()
 
@@ -78,12 +83,12 @@ def plot_cumulative_plane_processes(K, N, pltgrid_x = 1, pltgrid_y = 1,\
 #Just for debugging...
 if __name__ == '__main__':
 	# Create a subdirectory of cwd to save off plots called 'plots'
-	ensure_plot_dir('plots')
+	create_or_clean_dir('plots')
 	N = int(input("Choose seats on plane: "))
 	K = int(input("Choose number of trials: "))
 	print("Running four batches of trials with above specifications")
 	plot_cumulative_plane_processes(K, N, pltgrid_x = 2, pltgrid_y = 2,\
-									save_subdir = 'plots')
+									subdir_name = 'plots')
 
 '''
 TO DO:
