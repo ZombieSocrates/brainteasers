@@ -46,5 +46,5 @@ def plot_multiple_plane_sizes(K, N_vector, conf_level = 0.95, null_prop = 0.5):
 #just for debugging...
 if __name__ == '__main__':
 	K = int(input("Choose number of trials at each N: "))
-	plot_multiple_plane_sizes(K, N_vector = [int(b) for b in np.linspace(2,100, 99)],\
+	plot_multiple_plane_sizes(K, N_vector = [int(b) for b in np.linspace(10,200, 20)],\
 							  conf_level = 0.95, null_prop = 0.5)
