@@ -28,7 +28,7 @@ def plot_cumulative_plane_processes(K, N, pltgrid_x = 1, pltgrid_y = 1,\
 	'''
 	Performs K trials of the "crazy plane" process defined in the
 	`plane_process.py` module for a plane with N seats.  Returns plots of
-	the cumulative success/failure ratio for these K trials.
+	the cumulative success rate for these K trials.
 
 	The arguments pltgrid_x and pltgrid_y allow for a repeat of the 
 	entire process listed above x * y times.  Defaults to a single
