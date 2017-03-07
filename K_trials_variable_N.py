@@ -2,8 +2,10 @@ import numpy as np
 from matplotlib import pyplot as plt
 import plane_process as pp
 from statsmodels.stats.proportion import proportion_confint
+import os
 
-def plot_multiple_plane_sizes(K, N_vector, conf_level = 0.95, null_prop = 0.5):
+def plot_multiple_plane_sizes(K, N_vector, conf_level = 0.95,\
+							  null_prop = 0.5, subdir_name = None):
 	'''
 	Calculates the success rate p_hat of running K trials
 	of the `plane_process.py` simulation, and plots
@@ -18,6 +20,12 @@ def plot_multiple_plane_sizes(K, N_vector, conf_level = 0.95, null_prop = 0.5):
 	approximation to the binomial distribution:
 
 	https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval
+
+	The optional argument `subdir_name` allows the user to choose
+	a subdirectory for saving the output plot.  This should be the name
+	of a subdirectory relative to the directory from which you are running
+	the script.  Leaving this as `None` will display the results
+	instead of saving.
 	'''
 	lower_bounds = []
 	p_hats = []
@@ -50,11 +58,19 @@ def plot_multiple_plane_sizes(K, N_vector, conf_level = 0.95, null_prop = 0.5):
 	plt.ylabel('Confidence Interval around Proportion')
 	plt.title('%s Trials with Planes of Varying Size' % K)
 	plt.legend(loc = 'best')
-	plt.show()
+	if subdir_name:
+		target_dir = '/'.join([os.getcwd(), subdir_name])
+		plotlabel = '%s_trials_%s_to_%s_seat_planes' % \
+		(K, min(N_vector), max(N_vector))
+		plt.savefig(target_dir + '/%s.png' % plotlabel, \
+			dpi = plt.gcf().dpi)
+	else:
+		plt.show()
 
 
 #just for debugging...
 if __name__ == '__main__':
+	pp.create_or_clean_dir('multiplane_plots')
 	K = int(input("Choose number of trials at each N: "))
 	plot_multiple_plane_sizes(K, N_vector = [int(b) for b in np.linspace(10,200, 20)],\
-							  conf_level = 0.95, null_prop = 0.5)
+							  conf_level = 0.95, null_prop = 0.5, subdir_name = 'multiplane_plots')
