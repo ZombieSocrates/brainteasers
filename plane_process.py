@@ -1,4 +1,5 @@
 import numpy as np
+import os
 
 def plane_process(N):
     '''
@@ -36,3 +37,21 @@ def plane_process(N):
     # print "failure."
     return 1 if passengers == seats else 0
 
+def create_or_clean_dir(subdir_name):
+    '''
+    This is a helper function for plot governance.  Every time
+    we run multiple trials of this experiment and plot out the results, this function
+    will create a directory to store the plot (if the directory doesn't exist) OR
+    it will clear out all plots from an extant directory
+    ''' 
+    root = os.getcwd()
+    target_dir = '/'.join([root, subdir_name])
+    try:
+        os.makedirs(target_dir)
+    except FileExistsError as exception:
+        print('Cleaning out subdirectory %s' % subdir_name)
+        contents = ['/'.join([target_dir, f]) for f in os.listdir(target_dir)\
+                     if f.endswith('.png')]
+        for f in contents:
+            os.remove(f)
+        pass
