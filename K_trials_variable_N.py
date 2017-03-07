@@ -58,6 +58,8 @@ def plot_multiple_plane_sizes(K, N_vector, conf_level = 0.95,\
 	plt.ylabel('Confidence Interval around Proportion')
 	plt.title('%s Trials with Planes of Varying Size' % K)
 	plt.legend(loc = 'best')
+	
+	# Save the plot in given subdirectory, or show it if no subdir given
 	if subdir_name:
 		target_dir = '/'.join([os.getcwd(), subdir_name])
 		plotlabel = '%s_trials_%s_to_%s_seat_planes' % \
@@ -67,8 +69,6 @@ def plot_multiple_plane_sizes(K, N_vector, conf_level = 0.95,\
 	else:
 		plt.show()
 
-
-#just for debugging...
 if __name__ == '__main__':
 	pp.create_or_clean_dir('multiplane_plots')
 	K = int(input("Choose number of trials at each N: "))

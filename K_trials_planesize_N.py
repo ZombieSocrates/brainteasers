@@ -52,6 +52,8 @@ def plot_cumulative_plane_processes(K, N, pltgrid_x = 1, pltgrid_y = 1,\
                   % (N, pltgrid_x * pltgrid_y, K))
 	plt.tight_layout()
 	plt.subplots_adjust(top = 0.85)
+	
+	# Save the plot in given subdirectory, or show it if no subdir given
 	if subdir_name:
 		target_dir = '/'.join([os.getcwd(), subdir_name])
 		plotlabel = '%s_trials_%s_seats_plots' % (K,N)
@@ -59,8 +61,6 @@ def plot_cumulative_plane_processes(K, N, pltgrid_x = 1, pltgrid_y = 1,\
 	else:
 		plt.show()
 
-
-#Just for debugging...
 if __name__ == '__main__':
 	# Create a subdirectory of cwd to save off plots called 'plots'
 	pp.create_or_clean_dir('plots')
@@ -72,9 +72,7 @@ if __name__ == '__main__':
 
 '''
 TO DO:
-* Change the function so that it saves the file to a .png, perhaps clearing out any 
-  extant png files as well.
-* Maybe size the number of plots dynamically, so that it gets as close to square
-  as possible?
+* Maybe size the number of plots dynamically, so that it gets as close to 
+an n by n square as possible?
 '''
 	
