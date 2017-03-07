@@ -62,13 +62,12 @@ def plot_cumulative_plane_processes(K, N, pltgrid_x = 1, pltgrid_y = 1,\
 		plt.show()
 
 if __name__ == '__main__':
-	# Create a subdirectory of cwd to save off plots called 'plots'
-	pp.create_or_clean_dir('plots')
+	pp.create_or_clean_dir('singleplane_plots')
 	N = int(input("Choose seats on plane: "))
 	K = int(input("Choose number of trials: "))
 	print("Running four batches of trials with above specifications")
 	plot_cumulative_plane_processes(K, N, pltgrid_x = 2, pltgrid_y = 2,\
-									subdir_name = 'plots')
+									subdir_name = 'singleplane_plots')
 
 '''
 TO DO:
