@@ -31,15 +31,19 @@ def plot_multiple_plane_sizes(K, N_vector, conf_level = 0.95, null_prop = 0.5):
 		p_hats.append(sum(trials)*1.0/K)
 		upper_bounds.append(upper)
 
+	# Plot out your sample proportions and the bounds of the confidence intervals.
+	# Use fill between to shade in between the confidence interval.
 	plt.plot(N_vector, p_hats, 'rx', label = r'$\hat{p}$')
 	plt.plot(N_vector, lower_bounds, 'b_', label = 'lower bound')
 	plt.plot(N_vector, upper_bounds, 'g_', label = 'upper bound')
 	plt.fill_between(N_vector, lower_bounds, upper_bounds,\
 					 facecolor = 'grey', alpha = 0.2)
 
+	# Plot a dotted line for the null hypothesized proportion
 	plt.plot(np.linspace(min(N_vector), max(N_vector), 1000),\
 			 np.repeat([null_prop], repeats = 1000),'k--')
 
+	# Set up ticks, labels, and titles to look pretty
 	plt.xticks(N_vector, rotation = 45)
 	plt.xlabel('Seats on Plane')
 	plt.yticks(np.linspace(0.25,0.75,11))
