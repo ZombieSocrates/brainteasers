@@ -38,10 +38,13 @@ def plot_multiple_plane_sizes(K, N_vector, conf_level = 0.95, null_prop = 0.5):
 					 facecolor = 'grey', alpha = 0.2)
 
 	plt.plot(np.linspace(min(N_vector), max(N_vector), 1000),\
-			 np.repeat([null_prop], repeats = 1000), color = 'k', ls = '--')
+			 np.repeat([null_prop], repeats = 1000),'k--')
 
 	plt.xticks(N_vector, rotation = 45)
-	plt.yticks(np.linspace(0.25,0.75,5))
+	plt.xlabel('Seats on Plane')
+	plt.yticks(np.linspace(0.25,0.75,11))
+	plt.ylabel('Confidence Interval around Proportion')
+	plt.title('%s Trials with Planes of Varying Size' % K)
 	plt.legend(loc = 'best')
 	plt.show()
 
