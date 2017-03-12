@@ -1,4 +1,5 @@
 import numpy as np
+import seaborn as sns
 from matplotlib import pyplot as plt 
 import plane_process as pp
 import os
@@ -46,6 +47,8 @@ def plot_cumulative_plane_processes(K, N, pltgrid_x = 1, pltgrid_y = 1,\
 					  left = 'off', right = 'off')
 	outer.set_xlabel('Number of Trials')
 	outer.set_ylabel('Success Rate')
+	outer.grid(False)
+	outer.set_facecolor('white')
 
 	# Set overall title and provide more space for it.
 	plt.suptitle("Crazy Plane with %s Seats: %s Batches of %s Trials"\
