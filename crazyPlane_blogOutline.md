@@ -1,5 +1,4 @@
 #Flipping a Coin on a Crazy Plane
-
 I'm a big fan of brain teasers and happen to find quirky, counterintuitive mathematical truisms fascinating. I'd be lying to you if I said I hadn't spent a weekend figuring out why it is that 23 people in a room [are more likely than not to generate at least one shared birthday.](https://en.wikipedia.org/wiki/Birthday_problem) At the same time, I don't consider myself particularly "good" at brainteasers. Put another way, I'd certainly experience a good deal of stress if confronted with a [Die Hard 3 scenario](https://www.youtube.com/watch?v=BVtQNK_ZUJg), even if Samuel L. was there to help me...
 
 The good news is there's a fairly simple way to improve skill at something you may not be a "natural" at: practice it, just you might jog up stairs or run for long distances to build up stamina. But imagine if instead of having regular old running shoes, you had turbo-charged, bionic shoes that made it easier for you to run farther and push your distance limits. You'd build up your stamina for sure, and you might even run to parts of your neighborhood or city that you'd never explored before and see something cool.
@@ -21,7 +20,7 @@ If you looked at the problem above for a little while and didn't instantly see a
 3. Run experiment/gather data
 4. Aggregate data and test hypothesis
 
-##FORMULATING OUR HYPOTHESIS
+##Forumlating our hypothesis
 As is the case with many of the problems we deal with here at Datascope, my first plan of attack was to pick up a pen and draw some things out. Before tackling the 100-seat plane specified in the problem, I wanted to sketch out some trials with smaller planes just to get a sense of the scenario we're dealing with. Consider a tiny plane with just two seats and two passengers. When the first passenger chooses randomly, he'll either sit in his assigned seat or in the target passenger's seat, leaving the target passenger with a 50/50 shot of finding her seat unoccupied.
 
 *TKTK Display scan of hand-drawn probability tree with just two passengers*
@@ -35,11 +34,11 @@ In looking at these base cases, a couple of things stand out to me:
 * The last passenger on the plane only ever ends up in his/her seat or in the crazy guy's seat. If one of the middle passengers "undoes" the crazy passenger's error by randomly selecting the crazy guy's seat, then everything else goes off without a hitch.  
 * The probability that the last passenger gets the correct seat is 1/2 for all of these small planes. This gives us some evidence that the probability of "success" in this boarding experiment _may not depend_ on the number of people boarding the plane. In other words, **Hypothesis Achievement Unlocked:**  
 
-HYPOTHESIS: The probability that the crazy plane's final passenger ends up in the correct seat is 50 percent, _regardless of how many people are boarding the plane_. 
+**HYPOTHESIS:** The probability that the crazy plane's final passenger ends up in the correct seat is 50 percent, _regardless of how many people are boarding the plane_. 
 
 We now have some inkling of what will happen if we ramp up from our "tiny planes" to our full 100-seat crazy plane, which is great. Unfortunately, drawing out these tree diagrams for planes with more passengers quickly becomes intractable. I'd be lying if I said I didn't while away certain hours of the evening drawing diagrams for 5- and 6-passenger planes, but even I don't even want to think about what the diagram for 100 passengers would look like. [ref]Especially considering that the 100-passenger diagram would have $2\super{99}$, or about _634 octillion_ branches to draw.[/ref]
 
-##SIMULATING A CRAZY PLANE
+##Simulating a Crazy Plane
 But here comes the good news: we don't _have_ to think about the 100-passenger diagram or calculate out all the ways in which passengers' choices might be mucked up by prior randomness. Instead, we can move on to step 2 and let a little bit of code do that work for us. Here's just one way of turning this brainteaser into an easily repeatable function: 
 
 	```python
@@ -72,7 +71,7 @@ We simulate passengers boarding the crazy plane by creating two identical lists 
 
 Voila! You now have a way to simulate the crazy plane process for any size plane you like. Put another way, we have set up a means to easily conduct an individual _"trial"_ of the crazy plane _"experiment"_. Looks like it's time to move on to step 3...
 
-##LATHER, RINSE, REPEAT
+##Lather, Rinse, Repeat
 In the last section, we introduced some key terms for our experiment.
 
 * N - We've specified that our plane has a certain number of seats
@@ -91,10 +90,10 @@ Enter the usefulness of computer simulations at the core of this whole discussio
 
 Notice that to the leftmost region of each of these graphs, as the number of trials is still small, the blue line representing cumulative success rate fluctuates a lot, because random processes are "unpredictable over the short term."  As we build out more trials, however, that fluctuation becomes much less pronounced. The final success rates arrived at above are each within 10 percentage points of 50 percent.  How might this change if we increased the number of trials? 
 
+![Image](singleplane_plots_moarTrials/1000_trials_100_seats_plots.png)
 
 
-
-##HAVE SOME CONFIDENCE
+##Have Some Confidence!
  Return to our original hypothesis...not just a plane with 100 seats but a plane of any size.
 
  Frame what you did in the last section in terms of the following terms
@@ -106,12 +105,18 @@ Introduce the concept of getting information about a 'parameter' from a sample, 
 
 I would try and not say too much more about confidence intervals here, particularly given that there are a couple of ways one can go about doing this when estimating proportions or success rates (maybe in a nerd citation you can mention that you are using score intervals)
 
-##A CELEBRATION OF SIMULATION
+![Image](multiplane_plots/200_trials_10_to_200_seat_planes.png)
+
+The confidence intervals will get narrower as we use more data (i.e. more simulations to build them)
+
+![Image](multiplane_plots/1000_trials_10_to_200_seat_planes.png)
+
+##A Celebration of Simulation
 What we just did provides a quick glimpse into an computational approach called "Monte Carlo methods," which is honestly just a fancier term for using repeated random sampling to solve problems. Quickly provide links to some other examples 
 
 * Rejection sampling to estimate the value of $\pi$
 * Monte Carlo simulations to [program AI for various popular games](https://jeffbradberry.com/posts/2015/09/intro-to-monte-carlo-tree-search/)
-* There are literally entire books written on applications of Monte Carlo simulation in
+* TKTK find links for other use cases, or ask Datascopers if they know of approachable examples
 
 
 

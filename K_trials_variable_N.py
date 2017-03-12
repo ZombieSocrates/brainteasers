@@ -77,7 +77,7 @@ def plot_multiple_plane_sizes(K, N_vector, conf_level = 0.95,\
 		plt.show()
 
 if __name__ == '__main__':
-	pp.create_or_clean_dir('multiplane_plots')
+	pp.create_or_clean_dir('multiplane_plots_moarTrials')
 	K = int(input("Choose number of trials at each N: "))
 	plot_multiple_plane_sizes(K, N_vector = [int(b) for b in np.linspace(10,200, 20)],\
-							  conf_level = 0.95, null_prop = 0.5, subdir_name = 'multiplane_plots')
+							  conf_level = 0.95, null_prop = 0.5, subdir_name = 'multiplane_plots_moarTrials')
