@@ -109,7 +109,7 @@ I would try and not say too much more about confidence intervals here, particula
 
 The confidence intervals will get narrower as we use more data (i.e. more simulations to build them)
 
-![Image](multiplane_plots/1000_trials_10_to_200_seat_planes.png)
+![Image](multiplane_plots_moarTrials/1000_trials_10_to_200_seat_planes.png)
 
 ##A Celebration of Simulation
 What we just did provides a quick glimpse into an computational approach called "Monte Carlo methods," which is honestly just a fancier term for using repeated random sampling to solve problems. Quickly provide links to some other examples 
