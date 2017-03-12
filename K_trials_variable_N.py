@@ -1,5 +1,6 @@
 import numpy as np
 from matplotlib import pyplot as plt
+import seaborn as sns
 import plane_process as pp
 from statsmodels.stats.proportion import proportion_confint
 import os
@@ -39,11 +40,17 @@ def plot_multiple_plane_sizes(K, N_vector, conf_level = 0.95,\
 		p_hats.append(sum(trials)*1.0/K)
 		upper_bounds.append(upper)
 
+	# Second line here was necessary to make the discrete tick marks show up on the plot
+	# when using seaborn.  See "Known Issues" in Seaborn documentation and/or following
+	# https://github.com/mwaskom/seaborn/issues/344
+	sns.set_style('whitegrid')
+	sns.set_context(rc ={'lines.markeredgewidth':1})
+
 	# Plot out your sample proportions and the bounds of the confidence intervals.
 	# Use fill between to shade in between the confidence interval.
-	plt.plot(N_vector, p_hats, 'rx', label = r'$\hat{p}$')
-	plt.plot(N_vector, lower_bounds, 'b_', label = 'lower bound')
-	plt.plot(N_vector, upper_bounds, 'g_', label = 'upper bound')
+	plt.plot(N_vector, p_hats, 'rx', label = 'Sample Success Rate ' + r'$\hat{p}$')
+	plt.plot(N_vector, lower_bounds, 'b_', label = 'Lower Bound for True ' + r'$P(Success)$')
+	plt.plot(N_vector, upper_bounds, 'g_', label = 'Upper Bound for True ' + r'$P(Success)$')
 	plt.fill_between(N_vector, lower_bounds, upper_bounds,\
 					 facecolor = 'grey', alpha = 0.2)
 
@@ -55,9 +62,9 @@ def plot_multiple_plane_sizes(K, N_vector, conf_level = 0.95,\
 	plt.xticks(N_vector, rotation = 45, fontsize = 8)
 	plt.xlabel('Seats on Plane')
 	plt.yticks(np.linspace(0.25,0.75,11), fontsize = 8)
-	plt.ylabel('Confidence Interval around Proportion')
-	plt.title('%s Trials with Planes of Varying Size' % K)
-	plt.legend(loc = 'best')
+	plt.ylabel('%d%% Confidence Interval' % (conf_level * 100))
+	plt.title('%s Trials with Crazy Planes of Varying Size' % K)
+	plt.legend(loc = 'best', framealpha = 0.75, frameon = True, edgecolor = 'b')
 	
 	# Save the plot in given subdirectory, or show it if no subdir given
 	if subdir_name:
