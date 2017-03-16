@@ -89,9 +89,11 @@ Enter the usefulness of computer simulations at the core of this whole discussio
 
 ![Image](singleplane_plots/100_trials_100_seats_plots.png)
 
-Notice that to the leftmost region of each of these graphs (where the number of trials is still small), the blue line representing cumulative success rate fluctuates a lot, because random processes are "unpredictable over the short term."  As we build out more trials, however, that fluctuation becomes much less pronounced. The final success rates arrived at above are each within 10 percentage points of 50 percent.  How might this change if we increased the number of trials? 
+Notice that to the leftmost region of each of these graphs (where the number of trials is still small), the blue line representing cumulative success rate fluctuates a lot, because random processes are "unpredictable over the short term."  As we get closer to the full 100 trials, that fluctuation becomes much less pronounced and we zero in on our hypothesized success rate of 50 percent. There's some variability of final cumulative success rates in each of the four "batches of experiments" above: we're generally within five percentage points of 50 percent, but don't hit it on the nose.  How might this change if we bumped up the number of trials? Because we have code, this is an easy question to answer!
 
 ![Image](singleplane_plots_moarTrials/1000_trials_100_seats_plots.png)
+
+If we make the "long run" of our simulation longer, we will see less variability
 
 
 ##Have Some Confidence!
