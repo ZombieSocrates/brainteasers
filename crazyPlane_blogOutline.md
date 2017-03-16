@@ -41,6 +41,7 @@ We now have some inkling of what will happen if we ramp up from our "tiny planes
 ##Simulating a Crazy Plane
 But here comes the good news: we don't _have_ to think about the 100-passenger diagram or calculate out all the ways in which passengers' choices might be mucked up by prior randomness. Instead, we can move on to step 2 and let a little bit of code do that work for us. Here's just one way of turning this brainteaser into an easily repeatable function: 
 
+[THINK ABOUT PASTING IN COMMENTS HERE AS WELL]
 	```python
 	import numpy as np
 
@@ -88,7 +89,7 @@ Enter the usefulness of computer simulations at the core of this whole discussio
 
 ![Image](singleplane_plots/100_trials_100_seats_plots.png)
 
-Notice that to the leftmost region of each of these graphs, as the number of trials is still small, the blue line representing cumulative success rate fluctuates a lot, because random processes are "unpredictable over the short term."  As we build out more trials, however, that fluctuation becomes much less pronounced. The final success rates arrived at above are each within 10 percentage points of 50 percent.  How might this change if we increased the number of trials? 
+Notice that to the leftmost region of each of these graphs (where the number of trials is still small), the blue line representing cumulative success rate fluctuates a lot, because random processes are "unpredictable over the short term."  As we build out more trials, however, that fluctuation becomes much less pronounced. The final success rates arrived at above are each within 10 percentage points of 50 percent.  How might this change if we increased the number of trials? 
 
 ![Image](singleplane_plots_moarTrials/1000_trials_100_seats_plots.png)
 
