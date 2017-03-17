@@ -83,9 +83,9 @@ As we prepare to run this experiment over and over again, it's helpful to reflec
 - All trials observe the same rules regarding whether passengers will or won't take their assigned seats, and
 - The outcome of each individual trial has _no effect_ on future trials. Every time we run the simulation again, the slate gets wiped clean and the chances of success versus failure are the same as they were in previous simulations.
 
-These points help us zero in on what probability theorists mean by "predictable in the long run."  The best way to get an understanding of random processes is to observe their behavior in many, many repeated trials. In fact, a result known as the [Law of Large Numbers](https://en.wikipedia.org/wiki/Law_of_large_numbers) stipulates that the _more_ repeated trials we observe, the better we'll be able to understand a random process. 
+These points help us zero in on what probability theorists mean by "predictable in the long run."  The best way to get an understanding of random processes is to observe their behavior in many, many repeated trials. In fact, a result known as the [Law of Large Numbers](https://en.wikipedia.org/wiki/Law_of_large_numbers) stipulates that the _more_ repeated trials we observe, the better we'll be able to understand a random process. Enter the usefulness of computer simulations at the core of this whole discussion: they simply allow you to generate enough experimental results in a short enough time to see the Law of Large Numbers in action!
 
-Enter the usefulness of computer simulations at the core of this whole discussion: they simply allow you to generate enough experimental results in a short enough time to see the Law of Large Numbers in action! With that in mind, let's take a look at what happens if we simulate the long-run behavior of the 100-seat crazy plane. Each graph below shows the cumulative success rate ($\frac{number of successful trials}{number of total trails})of running the process 100 times.
+With that in mind, let's take a look at what happens if we simulate the long-run behavior of the 100-seat crazy plane. Each graph below shows the cumulative success rate ($\frac{number of successful trials}{number of total trails})of running the process 100 times.
 
 ![Image](singleplane_plots/100_trials_100_seats_plots.png)
 
@@ -93,10 +93,12 @@ Notice that to the leftmost region of each of these graphs (where the number of 
 
 ![Image](singleplane_plots_moarTrials/1000_trials_100_seats_plots.png)
 
-If we make the "long run" of our simulation longer, we will see less variability
+Once we increase the number of trials in these batches of simulations, the result of each of these batches is _pretty darn close_ to 50 percent. You can get a sense from looking at the far-right portion of each graph that these cumulative success rates have more or less flatlined. Put in a more general way: as we increase the "length" of what we consider the "long run", the impact of each individual experiment is minimized and we're left with a clearer picture of what's actually going on at scale. 
 
+So without even cracking open a combinatorics textbook, we're able to take our 100-seat crazy plane, simulate the boarding process thousands of times, and get visual confirmation that the answer to the brainteaser is 50 percent. Those of you with some statistics familiarity may be cringing somewhat at my use of terms like "pretty darn close" and "visual confirmation" or might not be convinced that we have enough evidence to consider this brainteaser solved. Then cheer up, because the next section on this post will give you a technique to...
 
 ##Have Some Confidence!
+
  Return to our original hypothesis...not just a plane with 100 seats but a plane of any size.
 
  Frame what you did in the last section in terms of the following terms
@@ -129,7 +131,7 @@ We demonstrated a simulation-based approach to solving a tidy little brainteaser
 * What if those crazy passengers were not at the front of the boarding line, but were instead dispersed randomly throughout it
 * What if a passenger randomly choosing a seat was more likely to choose certain seats than others? (i.e., perhaps the initial crazy person is less likely to run to the back of the plane and take seat 100 than she is to take a seat nearby, or any passenger finding his/her seat taken will choose the _nearest_ unoccupied seat)
 
-Minor tweaks like this might be very difficult to work into an analytic solution to the problem. On the other hand, it's comparatively easy to tweak the code we laid out above to accomodate any or all of the scenarios above, run a couple hundred or couple thousand more trials, and see how our inference changes. Simulations are such a powerful problem solving tool because they customize and generalize to new scenarios relatively easily. Now that you've explored one particular framing of the "crazy plane" problem and have some basic code to simulate the process, you have all the raw materials you need to forumlate and test new hypotheses.  No PhD in statistics or combinatorics required!
+Minor tweaks like this might be very difficult to work into an analytic solution to the problem. On the other hand, it's comparatively easy to tweak the code we laid out above to accomodate any or all of the scenarios above, run a couple hundred or couple thousand more trials, and see how our inference changes. Simulations are such a powerful problem solving tool because they customize and generalize to new scenarios relatively easily. Now that you've explored one particular framing of the "crazy plane" problem and have some basic code to simulate the process, you have all the raw materials you need to forumlate and test new hypotheses. No advanced training in statistics or combinatorics required!
 
 In short, the next time you see a problem that you're not sure how to calculate (or perhaps just don't want to calculate), see if you can simulate! And what's more, simulate with pride, knowing that you're taking advantage of one of the most powerful approaches in the data scientist's tool belt.
 
