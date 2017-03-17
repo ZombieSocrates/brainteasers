@@ -34,7 +34,7 @@ In looking at these base cases, a couple of things stand out to me:
 * The last passenger on the plane only ever ends up in his/her seat or in the crazy guy's seat. If one of the middle passengers "undoes" the crazy passenger's error by randomly selecting the crazy guy's seat, then everything else goes off without a hitch.  
 * The probability that the last passenger gets the correct seat is 1/2 for all of these small planes. This gives us some evidence that the probability of "success" in this boarding experiment _may not depend_ on the number of people boarding the plane. In other words, **Hypothesis Achievement Unlocked:**  
 
-**HYPOTHESIS:** The probability that the crazy plane's final passenger ends up in the correct seat is 50 percent, _regardless of how many people are boarding the plane_. 
+**HYPOTHESIS:** The probability that the crazy plane's final passenger ends up in the correct seat is 50 percent, regardless of how many people are boarding the plane. 
 
 We now have some inkling of what will happen if we ramp up from our "tiny planes" to our full 100-seat crazy plane, which is great. Unfortunately, drawing out these tree diagrams for planes with more passengers quickly becomes intractable. I'd be lying if I said I didn't while away certain hours of the evening drawing diagrams for 5- and 6-passenger planes, but even I don't even want to think about what the diagram for 100 passengers would look like. [ref]Especially considering that the 100-passenger diagram would have $2\super{99}$, or about _634 octillion_ branches to draw.[/ref]
 
@@ -98,15 +98,21 @@ Once we increase the number of trials in these batches of simulations, the resul
 So without even cracking open a combinatorics textbook, we're able to take our 100-seat crazy plane, simulate the boarding process thousands of times, and get visual confirmation that the answer to the brainteaser is 50 percent. Those of you with some statistics familiarity may be cringing somewhat at my use of terms like "pretty darn close" and "visual confirmation" or might not be convinced that we have enough evidence to consider this brainteaser solved. Then cheer up, because the next section on this post will give you a technique to...
 
 ##Have Some Confidence!
+At this point I'd also like to take the opportunity to return to one part of our hypothesis that we haven't addressed directly yet
 
- Return to our original hypothesis...not just a plane with 100 seats but a plane of any size.
+**HYPOTHESIS:** The probability that the crazy plane's final passenger ends up in the correct seat is 50 percent, **regardless of how many people are boarding the plane.**   
 
- Frame what you did in the last section in terms of the following terms
+We're not just interested in the plane with 100 seats, but potentially a plane with any number of seats you care to load up with people of questionable sanity! Luckily for us, the code we wrote above is easily adaptable to a plane of any size, which makes it easy for us to repeat the above simulations for these new planes and see whether our hypothesis bears out. As I prepare for this, I'm frankly tired of writing "cumulative success rate" over and over again, so I'm going to do what statisticians do in this situation and use a symbol instead
 
-* $\hat{p}$ - The _cumulative rate of success_ that we observe in repeated trials, calculated as (sum of trials that are successful)/K
-* $P(Success)$ - The true probability of any individual experiment producing a success (i.e., what we're trying to figure out).
+[FIX MARKDOWN IN GitHub]
 
-Introduce the concept of getting information about a 'parameter' from a sample, and how a confidence interval is a set of instructions for doing that
+* $\hat{p}$ - "p hat," where the p stands for probability, and the hat is just a notation to symbolize that we get this probability from a _sample_. In this case, that sample is one of our batches of repeated simulations.
+
+We're using these simulations and calculating these $\hat{p} values to get a sense of what the actual "long run" probability underpinning our plane process is. I'm going to signify this concept as follows.
+
+* $P(Success)$ - The true probability of any individual experiment producing a success.
+
+Given that our plane process is random, the only way we'd be absolutely sure of knowing that true probability of success is to run infinite trials of an experiment (FLIP INFINITE COINS, SIMULATE INFINITE PLANES**) Introduce the concept of getting information about a 'parameter' from a sample, and how a confidence interval is a set of instructions for doing that
 
 I would try and not say too much more about confidence intervals here, particularly given that there are a couple of ways one can go about doing this when estimating proportions or success rates (maybe in a nerd citation you can mention that you are using score intervals)
 
