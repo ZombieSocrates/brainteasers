@@ -1,7 +1,7 @@
 #Flipping a Coin on a Crazy Plane
-I'm a big fan of brain teasers and happen to find quirky, counterintuitive mathematical truisms fascinating. I'd be lying to you if I said I hadn't spent a weekend figuring out why it is that 23 people in a room [are more likely than not to generate at least one shared birthday.](https://en.wikipedia.org/wiki/Birthday_problem) At the same time, I don't consider myself particularly "good" at brainteasers. Put another way, I'd certainly experience a good deal of stress if confronted with a [Die Hard 3 scenario](https://www.youtube.com/watch?v=BVtQNK_ZUJg), even if Samuel L. was there to help me...
+I'm a big fan of brain teasers and happen to find quirky, counterintuitive mathematical truisms fascinating. I'd be lying to you if I said I hadn't spent a weekend figuring out why it is that 23 people in a room [are more likely than not to generate at least one shared birthday.](https://en.wikipedia.org/wiki/Birthday_problem) At the same time, I don't consider myself particularly "good" at brainteasers, and can't say I'd perform as well as Bruce Willis did in that [classic scene from Die Hard 3](https://www.youtube.com/watch?v=BVtQNK_ZUJg), even if Samuel L. was there to help me...
 
-The good news is there's a fairly simple way to improve skill at something you may not be a "natural" at: practice it, just you might jog up stairs or run for long distances to build up stamina. But imagine if instead of having regular old running shoes, you had turbo-charged, bionic shoes that made it easier for you to run farther and push your distance limits. You'd build up your stamina for sure, and you might even run to parts of your neighborhood or city that you'd never explored before and see something cool.
+The good news is there's a fairly simple way to improve your skill at almost anything: practice it, just you might jog up stairs or run for long distances to build up stamina. But imagine if instead of having regular old running shoes, you had turbo-charged, bionic shoes that made it easier for you to run farther and push your distance limits. You'd build up your stamina for sure, and you might even run to parts of your neighborhood or city that you'd never explored before and see something cool.
 
 While these turbo-shoes don't exist last time I checked, as a Data Scientist I can tell you that an analog to them exists when it comes to generating insights about a wide array of complex systems, from physical and biological processes and financial investments to winning your favorite board game or solving a little brainteaser. What's more, you already have everything you need to use this tool assuming you're reading this post from a computer.
 
@@ -9,7 +9,7 @@ What is this mysterious treasure I speak of? **Simulation!**
 
 In my humble opinion, one of the "killer apps" of taking a data science-y approach to problem solving is as follows: "let computers do as much of your dirty work for you." Setting up a quick simulation is one of the best examples of this principle at work: figure out what game you want to play, tell your computer the rules, and then have it play that game over and over again while aggregating the results in an easy-to-interpret format. This provides a way to tackle problems that are prohibitively complex and gain a good understanding of "long-run" phenomena, all while making a much better use of your time (unless you happen to be in the position to, say, [flip a coin 10,000 times](https://en.wikipedia.org/wiki/John_Edmund_Kerrich)).
 
-In this post, I want to give a quick demonstration of how trading the pen and paper for a little bit of Python helped me work out a brainteaser that I like to refer to as "The Crazy Plane Problem:"
+In this post, I want to give a quick demonstration of how trading the pen and paper for a little bit of Python helped me work out a brainteaser that I like to refer to as ["The Crazy Plane Problem"](http://math.stackexchange.com/questions/5595/taking-seats-on-a-plane)
 
 Imagine there are a 100 people in line to board a plane with 100 seats. For convenience, let's say that person 1 has the ticket to seat 1, person 2 to seat 2, and so on. Unfortunately, the first person in line is crazy and simply takes a random seat instead of looking at his ticket. Every person boarding after him will either take the "proper" seat, or will choose a random seat if his/hers is already occupied. What is the probability that _the last person to board the plane will end up in seat 100, his/her correct assigned seat?_
 
@@ -39,9 +39,8 @@ In looking at these base cases, a couple of things stand out to me:
 We now have some inkling of what will happen if we ramp up from our "tiny planes" to our full 100-seat crazy plane, which is great. Unfortunately, drawing out these tree diagrams for planes with more passengers quickly becomes intractable. I'd be lying if I said I didn't while away certain hours of the evening drawing diagrams for 5- and 6-passenger planes, but even I don't even want to think about what the diagram for 100 passengers would look like. [ref]Especially considering that the 100-passenger diagram would have $2\super{99}$, or about _634 octillion_ branches to draw.[/ref]
 
 ##Simulating a Crazy Plane
-But here comes the good news: we don't _have_ to think about the 100-passenger diagram or calculate out all the ways in which passengers' choices might be mucked up by prior randomness. Instead, we can move on to step 2 and let a little bit of code do that work for us. Here's just one way of turning this brainteaser into an easily repeatable function: 
+But here's the first of many bits of good news: we don't _have_ to think about the 100-passenger diagram or calculate out all the ways in which passengers' choices might be mucked up by prior randomness. Instead, we can move on to step 2 and let a little bit of code do that work for us. Here's just one way of turning this brainteaser into an easily repeatable function: 
 
-[THINK ABOUT PASTING IN COMMENTS HERE AS WELL]
 	```python
 	import numpy as np
 
@@ -50,21 +49,37 @@ But here comes the good news: we don't _have_ to think about the 100-passenger d
 		Performs one trial of the "crazy plane" experiment
 		for a plane with N seats
 		'''
+
+		# Generate a plane with seats and passengers indexed from 1 to N.
 		passengers = [b for b in range(1, N + 1)]
 		seats = [b for b in range(1, N + 1)]
-
+        
+        # Board every passenger except the last one
 		for passenger in passengers[:-1]:
+			
+			# The first passenger always chooses randomly
 			if passenger == 1:
 	  			seats.remove(np.random.choice(seats,1).item())
 			else:
+
+				# Any other passenger looks for his/her seat
 				try:
 					seats.index(passenger)
+				
+				# If it's already taken, he/she also chooses randomly
 				except ValueError:
 					seats.remove(np.random.choice(seats,1).item())
+				
+				# Otherwise, the assigned seat is taken
 				else:
 					seats.remove(passenger)
+
+			# Once a passenger has boarded, remove him/her from the list 		
 			passengers.remove(passenger)
 
+		# After all other passengers have boarded, check the last remaining
+		# passenger against the last seat. If the remaining values in both
+		# lists are equal, the final passenger got the right seat	
 		return 1 if passengers == seats else 0
 	```
 
@@ -95,7 +110,7 @@ Notice that to the leftmost region of each of these graphs (where the number of 
 
 Once we increase the number of trials in these batches of simulations, the result of each of these batches is _pretty darn close_ to 50 percent. You can get a sense from looking at the far-right portion of each graph that these cumulative success rates have more or less flatlined. Put in a more general way: as we increase the "length" of what we consider the "long run", the impact of each individual experiment is minimized and we're left with a clearer picture of what's actually going on at scale. 
 
-So without even cracking open a combinatorics textbook, we're able to take our 100-seat crazy plane, simulate the boarding process thousands of times, and get visual confirmation that the answer to the brainteaser is 50 percent. Those of you with some statistics familiarity may be cringing somewhat at my use of terms like "pretty darn close" and "visual confirmation" or might not be convinced that we have enough evidence to consider this brainteaser solved. Then cheer up, because the next section on this post will give you a technique to...
+So without even cracking open a combinatorics textbook, we're able to take our 100-seat crazy plane, simulate the boarding process thousands of times, and get visual confirmation that the answer to the brainteaser is **50 percent**, meaning that this seemingly complex boarding process is in some ways no different than flipping a coin! Those of you with some statistics familiarity may be cringing somewhat at my use of terms like _pretty darn close_, _more or less flatlined_, or _visual confirmation_, and might not be convinced that we have enough evidence to consider this brainteaser solved. Then cheer up, because the next section on this post will give you a technique to...
 
 ##Have Some Confidence!
 At this point I'd also like to take the opportunity to return to one part of our hypothesis that we haven't addressed directly yet
@@ -112,15 +127,22 @@ We're using these simulations and calculating these $\hat{p} values to get a sen
 
 * $P(Success)$ - The true probability of any individual experiment producing a success.
 
-Given that our plane process is random, the only way we'd be absolutely sure of knowing that true probability of success is to run infinite trials of an experiment (FLIP INFINITE COINS, SIMULATE INFINITE PLANES**) Introduce the concept of getting information about a 'parameter' from a sample, and how a confidence interval is a set of instructions for doing that
+$P(Success)$ is also called a _parameter_, because it characterizes _any and every occurence of an event_. But for any random event, the only way we'd be absolutely able to calculate this parameter is to run infinite trials: to flip infinite coins or simulate the crazy plane with a given number of seats an infinite number of time. Because we can never actually accomplish this, what we're doing instead is using larger and larger batches of simulations to calculate different $\hat{p}$ values that serve as _estimates_ of our parameters.
 
-I would try and not say too much more about confidence intervals here, particularly given that there are a couple of ways one can go about doing this when estimating proportions or success rates (maybe in a nerd citation you can mention that you are using score intervals)
+We saw from our earlier plots that there is always variability in the $\hat{p}$ values produced by our simulations; in one batch we get 44 percent, in another we get 51 percent, etc. etc. Given this variabiity, you may be wondering how we can conclude anything about $P(Success)$ with certainty. The good news is that samples of simulations not only give us single point estimates of $P(Success)$, they also give us _instructions for bounding $P(Success)$ within a plausible range of values_. By following these instructions, we are creating what's called a **confidence interval** for the parameter $P(Success)$.
+
+You can think of these confidence intervals as a _method_ of getting as much information out of your simulations as possible.  The $\hat{p}$ value you calculate from all of the simulations sits at the center of the confidence interval, and then you basically cast a net above and below $\hat{p}$ of a given size and can conclude something like "based on this sample, $P(Success)$ likely lies within some lower bound A and some upper bound B." I always refer to confidence intervals as "instructions" or a "method" because (QUICKLY INTRODUCE THAT PROBABILITY in a confidence interval is probability of successfully containing the parameter. Add in IKEA allusion in a [ref] note) 
+
+While I could say more about confidence intervals here, I think it will be easier to literally see them in action. Additionally, confidence intervals are going to help us quickly address that last unresolved bit of our hypothesis. What I've done in the graph below is conducted 200 trials of our crazy plane simulation with planes of 20 different sizes ranging from 10 to 200 seats 
 
 ![Image](multiplane_plots/200_trials_10_to_200_seat_planes.png)
 
-The confidence intervals will get narrower as we use more data (i.e. more simulations to build them)
+Make a nod to the variation in the red X's, but then EXPLAIN WHAT THE BLACK DOTTED LINE IS AND EXPLAIN THAT MOST OF THE CONFIDENCE INTERVALS CONTAIN THAT BLACK DOTTED LINE.  Regardless of red X, most of these samples indicate that 50 percent is a plausible value for $P(Success)$.  This means we're narrowing in on concluding that the crazy plane is a 50-50 shot no matter the size of the plane. Further, the confidence intervals will get narrower as we use more data (i.e. more simulations to build them)
 
 ![Image](multiplane_plots_moarTrials/1000_trials_10_to_200_seat_planes.png)
+
+Our confidence intervals get narrower and $\hat{p}$ estimates get better as we use more data to build them. With simulation, that process of increasing your sample size is often as simple as typing in a different number and hitting "Go."
+Maybe a quick cheeky nod about how we don't confirm our hypothesis, we just fail to reject it.
 
 ##A Celebration of Simulation
 What we just did provides a quick glimpse into an computational approach called "Monte Carlo methods," which is honestly just a fancier term for using repeated random sampling to solve problems. Quickly provide links to some other examples 
