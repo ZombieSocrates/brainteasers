@@ -20,7 +20,7 @@ If you looked at the problem above for a little while and didn't instantly see a
 3. Run experiment/gather data
 4. Aggregate data and test hypothesis
 
-##Forumlating our Hypothesis  
+##Formulating our Hypothesis  
 As is the case with many of the problems we deal with here at Datascope, my first plan of attack was to pick up a pen and draw some things out. Before tackling the 100-seat plane specified in the problem, I wanted to sketch out some trials with smaller planes just to get a sense of the scenario we're dealing with. Consider a tiny plane with just two seats and two passengers. When the first passenger chooses randomly, he'll either sit in his assigned seat or in the target passenger's seat, leaving the target passenger with a 50-50 shot of finding her seat unoccupied.  
 
 *TKTK Display scan of hand-drawn probability tree with just two passengers*
@@ -93,7 +93,7 @@ In the last section, we introduced some key terms for our experiment.
 * N - We've specified that our plane has a certain number of seats.
 * "Success/Failure" - Label the trial with a 1 if last passenger gets the right seat, 0 otherwise.
 
-As we prepare to run this experiment over and over again, it's helpful to reflect on _why we're doing this._ As made clear in the brainteaser, the crazy plane process is chock full o' randomness, which can best be defined as anything that's _unpredictable in the short run but predictable in the long run_ (just like rolling dice, flipping coins, or drawing cards).  While we can't know for sure whether an inidividual crazy plane experiment will end in success or failure, we do know that:  
+As we prepare to run this experiment over and over again, it's helpful to reflect on _why we're doing this._ As made clear in the brainteaser, the crazy plane process is chock full o' randomness, which can best be defined as anything that's _unpredictable in the short run but predictable in the long run_ (just like rolling dice, flipping coins, or drawing cards).  While we can't know for sure whether an individual crazy plane experiment will end in success or failure, we do know that:  
 
 - All trials observe the same rules regarding whether passengers will or won't take their assigned seats, and
 - The outcome of each individual trial has _no effect_ on future trials. Every time we run the simulation again, the slate gets wiped clean and the chances of success versus failure are the same as they were in previous simulations.
