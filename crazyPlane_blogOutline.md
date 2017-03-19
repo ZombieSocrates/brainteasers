@@ -1,4 +1,4 @@
-#Flipping a Coin on a Crazy Plane
+#Flipping a Coin on a Crazy Plane  
 I'm a big fan of brain teasers and happen to find quirky, counterintuitive mathematical truisms fascinating. I'd be lying to you if I said I hadn't spent a weekend figuring out why it is that 23 people in a room [are more likely than not to generate at least one shared birthday.](https://en.wikipedia.org/wiki/Birthday_problem) At the same time, I don't consider myself particularly "good" at brainteasers, and can't say I'd perform as well as Bruce Willis in that [classic scene from Die Hard 3](https://www.youtube.com/watch?v=BVtQNK_ZUJg), even if Samuel L. was there to help me...
 
 The good news is there's a fairly simple way to improve your skill at almost anything: practice it, just you might jog up stairs or run for long distances to build up stamina. But imagine if instead of having regular old running shoes, you had turbo-charged, bionic shoes that made it easier for you to run farther and push your distance limits. You'd build up your stamina for sure, and you might even run to parts of your neighborhood or city that you'd never explored before and see something cool.
@@ -20,7 +20,7 @@ If you looked at the problem above for a little while and didn't instantly see a
 3. Run experiment/gather data
 4. Aggregate data and test hypothesis
 
-##Forumlating our hypothesis
+##Forumlating our Hypothesis  
 As is the case with many of the problems we deal with here at Datascope, my first plan of attack was to pick up a pen and draw some things out. Before tackling the 100-seat plane specified in the problem, I wanted to sketch out some trials with smaller planes just to get a sense of the scenario we're dealing with. Consider a tiny plane with just two seats and two passengers. When the first passenger chooses randomly, he'll either sit in his assigned seat or in the target passenger's seat, leaving the target passenger with a 50-50 shot of finding her seat unoccupied.  
 
 *TKTK Display scan of hand-drawn probability tree with just two passengers*
@@ -38,7 +38,7 @@ In looking at these base cases, a couple of things stand out:
 
 We have an idea of what will happen if we ramp up from our "tiny planes" to our full 100-seat crazy plane, which is great. Unfortunately, drawing out these tree diagrams for planes with more passengers quickly becomes intractable. I'd be lying if I said I didn't while away certain hours of the evening drawing diagrams for 5- and 6-passenger planes, but even I don't even want to think about larger diagrams. [ref]Especially considering that the 100-passenger diagram would have $2\super{99}$, or about _634 octillion_ branches to draw.[/ref]
 
-##Simulating a Crazy Plane
+##Simulating a Crazy Plane  
 But here's the first of many bits of good news: we don't _have_ to think about the 100-passenger diagram or calculate out all the ways in which passengers may be inconvenienced by prior randomness. Instead, we can move on to step 2 and let a little bit of code do that work for us. Here's just one way of turning this brainteaser into an easily repeatable function: 
 
 	```python
@@ -112,7 +112,7 @@ Once we increase the number of trials in these batches of simulations, the resul
 
 So without cracking open a combinatorics textbook, we're able to take our 100-seat crazy plane, simulate the boarding process thousands of times, and get visual confirmation that the answer to the brainteaser is **50 percent**, meaning that this seemingly complex boarding process is no different than flipping a coin! Perhaps some of you are cringing at my use of terms like _pretty darn close_, _more or less flatlined_, or _visual confirmation_, and might not be convinced that we have enough evidence to consider this brainteaser solved. Then cheer up, because the final step in our solution to this problem employs a technique to...
 
-##Have Some Confidence!
+##Have Some Confidence!  
 At this point I'd also like to return to a part of our hypothesis we haven't addressed directly yet:  
 
 **HYPOTHESIS:** The probability that the crazy plane's final passenger ends up in the correct seat is 50 percent, **regardless of how many people are boarding the plane.**   
@@ -145,7 +145,7 @@ You can actually see _two_ phenomena at play above: our estimates of $\hat{p}$ b
 
 At this point, hopefully even the most data skeptical of you dear readers are convinced that we've not only solved this crazy plane brainteaser but have actually done it one better! The likelihood of the last passenger ending up in the correct seat seems to be 50 percent, regardless of how many people are in line to board. With some liberally applied simulation, we've been able to put our hypothesis to the test and have no reason to believe that it's incorrect. [ref]If my wording here seems somewhat tortuous, it's because I'd be remiss as a statistician if I concluded an exercise like this by _accepting_ a hypothesis. We haven't "proven" our hypothesis true. We've just generated a bunch of information that has _failed to prove it false_, and are thus free to go on continuing to believe it. Perhaps not as triumphant as we may like, but c'est la vie.[/ref] 
 
-##Don't Calculate...Simulate!
+##Don't Calculate...Simulate!  
 What we just did provides a quick glimpse into an computational approach called "Monte Carlo methods," which is honestly just a fancier term for using repeated random sampling to solve problems. If that description seems incredibly general, that's because simulation-based approaches pop up in all kinds of disciplines and are about as varied as the day is long. Here are just a couple of examples of simulation at work: 
 
 * If you wanted to estimate the value of $\pi$, you could do it with just a [one-by-one square, a circle inscribed within that square, and a uniform random number generator](https://am207.github.io/2017/wiki/basicmontercarlo.html#estimate-the-area-of-a-unit-circle)
