@@ -36,7 +36,7 @@ In looking at these base cases, a couple of things stand out:
 
 **HYPOTHESIS:** The probability that the crazy plane's final passenger ends up in the correct seat is 50 percent, regardless of how many people are boarding the plane.  
 
-We have an idea of what will happen if we ramp up from our "tiny planes" to our full 100-seat crazy plane, which is great. Unfortunately, drawing out these tree diagrams for planes with more passengers quickly becomes intractable. I'd be lying if I said I didn't while away certain hours of the evening drawing diagrams for 5- and 6-passenger planes, but even I don't even want to think about larger diagrams. [ref]Especially considering that the 100-passenger diagram would have $2\super{99}$, or about _634 octillion_ branches to draw.[/ref]
+We have an idea of what will happen if we ramp up from our "tiny planes" to our full 100-seat crazy plane, which is great. Unfortunately, drawing out these tree diagrams for planes with more passengers quickly becomes intractable. I'd be lying if I said I didn't while away certain hours of the evening drawing diagrams for 5- and 6-passenger planes, but even I don't even want to think about larger diagrams. [ref]Especially considering that the 100-passenger diagram would have $2^{99}$, or about _634 octillion_ branches to draw.[/ref]
 
 ##Simulating a Crazy Plane  
 But here's the first of many bits of good news: we don't _have_ to think about the 100-passenger diagram or calculate out all the ways in which passengers may be inconvenienced by prior randomness. Instead, we can move on to step 2 and let a little bit of code do that work for us. Here's just one way of turning this brainteaser into an easily repeatable function: 
