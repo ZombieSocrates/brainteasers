@@ -5,7 +5,7 @@ I'm a big fan of brainteasers and happen to find quirky, counterintuitive mathem
 
 Luckily, there's a fairly simple way to improve your skill at almost anything: practice it, just as you might jog up stairs or run for long distances to build up stamina. But imagine if instead of having regular old running shoes, you had turbo-charged, bionic shoes that made it easier for you to run farther and push your distance limits. You'd build up your stamina for sure, and you might even run to parts of your neighborhood or city that you'd never explored before and see something cool.
 
-While these turbo-shoes don't exist last time I checked, as a Data Scientist I can tell you that an analog to them exists when it comes to generating insights about a wide array of complex systems, from physical and biological processes and financial investments to winning your favorite board game or solving a little brainteaser. What's more, you already have everything you need to use this tool assuming you're reading this post from a computer.
+While these turbo-shoes don't exist last time I checked, as a Data Scientist I can tell you that an analogue to them exists when it comes to generating insights about a wide array of complex systems, from physical and biological processes and financial investments to winning your favorite board game or solving a little brainteaser. What's more, you already have everything you need to use this tool assuming you're reading this post from a computer.
 
 What is this mysterious method I speak of? **Simulation!**
 
