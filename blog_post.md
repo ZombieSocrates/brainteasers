@@ -20,11 +20,13 @@ If you looked at the problem above for a little while, don't instantly see a way
 ## The Drawing Board
 As is the case with many of the [problems we deal with here at Datascope](https://datascopeanalytics.com/work/), my first plan of attack was to pick up a pen and draw. Before tackling the 100-seat plane specified in the problem, I sketched out some trials with smaller planes just to get a sense of the scenario we're dealing with. Consider a tiny plane with just two seats and two passengers. When the first passenger chooses randomly, he'll either sit in his assigned seat or in the target passenger's seat, leaving the target passenger with a 50-50 shot of finding her seat unoccupied.  
 
-*TO DO: add scan of hand-drawn probability tree with just two passengers*
+![Image](hand_sketches/two_passenger_sketch.png)
 
 We can draw out similar scenarios for planes with three seats and four seats. Every row in these diagrams represents the possible seat choices that the first, second, or nth passenger can make given the choices of previous passengers.  
 
-*TO DO: add scan of hand-drawn probability trees with n = 3 and n = 4 passengers*
+![Image](hand_sketches/three_passenger_sketch.png)
+
+![Image](hand_sketches/four_passenger_sketch.png)
 
 In looking at these base cases, a couple things stand out:
 * The last passenger on the plane _only ever ends up in her seat or in the crazy guy's seat._ If one of the middle passengers "undoes" the crazy passenger's error by randomly selecting the crazy guy's seat, then everything else goes off without a hitch.    
