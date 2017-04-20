@@ -1,7 +1,7 @@
 # Flipping a Coin on a Crazy Plane  
 Simulating Your Way to Real Answers
 
-I'm a big fan of brainteasers and happen to find quirky, counterintuitive mathematical truisms fascinating. I'd be lying if I said I hadn't spent a weekend figuring out why once you have 23 people in a room, [you're more likely than not to have at least one shared birthday among them.](https://en.wikipedia.org/wiki/Birthday_problem) At the same time, I don't consider myself particularly "good" at brainteasers, and can't say I'd perform as well as Bruce Willis in that [classic scene from _Die Hard 3_](https://www.youtube.com/watch?v=BVtQNK_ZUJg), even if Samuel L. were there to help me...
+I'm a big fan of brainteasers and happen to find quirky, counterintuitive mathematical truisms fascinating. I'd be lying if I said I hadn't spent a weekend figuring out why once you have 23 people in a room, [you're more likely than not to have at least one shared birthday among them](https://en.wikipedia.org/wiki/Birthday_problem). At the same time, I don't consider myself particularly "good" at brainteasers, and can't say I'd perform as well as Bruce Willis in that [classic scene from _Die Hard 3_](https://www.youtube.com/watch?v=BVtQNK_ZUJg), even if Samuel L. were there to help me.
 
 Luckily, there's a fairly simple way to improve your skill at almost anything: practice it, just as you might jog up stairs or run for long distances to build up stamina. But imagine if instead of having regular old running shoes, you had turbo-charged, bionic shoes that made it easier for you to run farther and push your distance limits. You'd build up your stamina for sure, and you might even run to parts of your neighborhood or city that you'd never explored before and see something cool.
 
@@ -11,7 +11,7 @@ What is this mysterious method I speak of? **Simulation!**
 
 In my humble opinion, one of the "killer apps" of taking a data science-y approach to problem solving is as follows: "let computers do your dirty work for you." Setting up a quick simulation is one of the best examples of this principle at work: figure out what game you want to play, tell your computer the rules, and then have it play that game over and over again while aggregating the results in an easy-to-interpret format. This provides a way to tackle prohibitively complex problems and gain a good understanding of "long-run" phenomena, all while making a much better use of your time (unless you have nothing better to do than [flip a coin 10,000 times](https://en.wikipedia.org/wiki/John_Edmund_Kerrich)).
 
-In this post, I want to quickly demonstrate how trading the pen and paper for a little bit of Python helped me work out a brainteaser I like to call the ["Crazy Plane" problem.](http://math.stackexchange.com/questions/5595/taking-seats-on-a-plane)
+In this post, I want to quickly demonstrate how trading the pen and paper for a little bit of Python helped me work out a brainteaser I like to call the ["Crazy Plane" problem](http://math.stackexchange.com/questions/5595/taking-seats-on-a-plane).
 
 >Imagine there are a 100 people in line to board a plane with 100 seats. For convenience, let's say that person 1 has the ticket to seat 1, person 2 to seat 2, etc. Unfortunately, the first person in line is crazy and simply takes a random seat instead of looking at his ticket. Each person boarding after him will either take the "proper" seat, or will choose a random seat if hers is already occupied. _What is the probability that the last person to board the plane will end up in the correct seat?_
 
@@ -22,17 +22,21 @@ As is the case with many of the [problems we deal with here at Datascope](https:
 
 ![Image](hand_sketches/two_passenger_sketch.png)
 
-We can draw out similar scenarios for planes with three seats and four seats. Each row in these diagrams represents the possible seat choices that the first, second, or nth passenger can make given the choices of previous passengers. Here's an artistic rendering of the ways a three-seat crazy plane could pan out...  
+We can draw out similar scenarios for planes with three seats and four seats. Each row in these diagrams represents the possible seat choices that the first, second, or nth passenger can make, given the choices of previous passengers. Below is an artistic rendering of the ways a crazy plane with *three* seats could pan out...  
+
 
 ![Image](hand_sketches/three_passenger_sketch.png)
 
-...and here's a sketch for the plane with four seats.
+
+...and here's a sketch for the plane with *four* seats.
+
 
 ![Image](hand_sketches/four_passenger_sketch.png)
 
+
 In looking at these base cases, a couple things stand out:
-* The last passenger on the plane _only ever ends up in her seat or in the crazy guy's seat (seat number 1)._ If anybody in the "undoes" the crazy passenger's error by randomly selecting his seat, then everything else goes off without a hitch.    
-* The probability that everything works out is 50 percent for each of these small planes. This gives us an inkling that the probability of the last passenger ending up in her assigned seat _may not depend on the number of people boarding the plane._
+* The last passenger on the plane _only ever ends up in her seat or in the crazy guy's seat (seat number 1)._ If anybody in the middle "undoes" the crazy passenger's error by randomly selecting his seat, then everything else goes off without a hitch.    
+* Everything works out 50 percent of the time for each of these small planes. This gives us an inkling that the probability of the last passenger ending up in her assigned seat _may not depend on the number of people boarding the plane._
 
 We have an idea of what will happen if we ramp up from our "tiny planes" to our full 100-seat crazy plane, which is great. Unfortunately, drawing these diagrams for larger planes quickly becomes intractable. I'd be lying if I said I didn't while away certain evenings drawing diagrams for five- and six-passenger planes, but I don't even want to think about larger diagrams.[ref]Especially considering that the 100-passenger diagram would have 2<sup>99</sup>, or about _634 octillion_, branches to draw, the smiley faces alone would take eons to perfect...[/ref].
 
@@ -80,19 +84,19 @@ def plane_process(N):
     return 1 if passengers == seats else 0
 ```
 
-We simulate passengers boarding the crazy plane by creating two identical lists of the numbered passengers and their corresponding assigned seats. In the main loop, we board all passengers except the final one. As passengers take seats, corresponding numbers are removed from both lists. We know that the first passenger will always choose a seat randomly, so we make sure of that. Thereafter, each passenger tries to look up his seat, but will choose randomly if that seat has been removed from the list. Once all these choices have been made, we look at the last passenger and the last seat to see if there's a match, returning 1 for success and 0 for failure.
+We simulate passengers boarding the crazy plane by creating two identical lists of the numbered passengers and their corresponding assigned seats. In the main loop, we board all passengers except the final one. As passengers take seats, corresponding numbers are removed from both lists. We know that the first passenger will always choose a seat randomly, so we make sure of that. Thereafter, each passenger tries to look up his seat, but will choose randomly if that seat has been removed from the list. Once all these choices have been made, we look at the last passenger and the last seat to see if there's a match, returning 1 if there is and 0 if there isn't (hereafter termed _success_ and _failure_, respectively).
 
-Voila! You can now simulate the crazy plane process for any size plane you like. Where do we go from here? Well, the crazy plane is chock full o' randomness, meaning that it is _unpredictable in the short run but predictable in the long run_ (just like rolling dice, or flipping coins). That is to say, the more times we observe a random process like the crazy plane, the better we’ll understand it. This is the real “secret sauce” of simulations: they generate much more information about the “long run” in a much shorter amount of time.
+Voila! You can now simulate the crazy plane process for any size plane you like. Where do we go from here? Well, the crazy plane is chock full o' randomness, meaning that it is _unpredictable in the short run but predictable in the long run_ (just like rolling dice or flipping coins). That is to say, the more times we observe a random process like the crazy plane, the better we’ll understand it. This is the real “secret sauce” of simulations: they generate much more information about the “long run” in a much shorter amount of time.
 
 To see what I mean, let’s simulate the long-run behavior of the 100-seat crazy plane. Each graph below shows the cumulative success rate (successful trials/total trials) of running the process 100 times.
 
 ![Image](singleplane_plots/100_trials_100_seats_plots.png)
 
-Notice that to the leftmost region of each graph (where the number of trials is still small), the blue line representing the cumulative success rate fluctuates a lot, because random processes are "unpredictable in the short run." As we get closer to the full 100 trials, that fluctuation decreases and our success rate converges on the very same 50 percent that we saw in our “tiny plane” sketches. There's some variability of the success rates in each of the four "batches" above: we're generally within five percentage points of 50 percent, but never hit it on the nose.  How might this change if we bumped up the number of trials? Because we have code, this is an easy question to answer!
+Notice that to the leftmost region of each graph (where the number of trials is still small), the blue line representing the cumulative success rate fluctuates a lot, because random processes are "unpredictable in the short run." As we get closer to the full 100 trials, that fluctuation decreases and our success rate converges on the very same 50 percent that we saw in our “tiny plane” sketches. There's some variation in success rates for the four "batches" above: we're generally within five percentage points of 50 percent, but never hit it on the nose.  How might this change if we bumped up the number of trials? Because we have code, this is an easy question to answer!
 
 ![Image](singleplane_plots_moarTrials/1000_trials_100_seats_plots.png)
 
-Once we increase the number of simulations in each batch, the results come even closer to 50 percent. You can see in the far-right portion of each graph how our cumulative success rates have more or less flatlined. Put in a more general way: as we increase the "length" of the long run, the impact of each individual experiment is minimized. This leaves us with a clearer picture of what's actually going on at scale: that this seemingly complex boarding process is no different than flipping a coin!  
+Once we increase the number of simulations in each batch, the results come even closer to 50 percent. You can see in the far-right portion of each graph how our cumulative success rates more or less flatline. Put in a more general way: as we increase the "length" of the long run, the impact of each individual experiment is minimized. This leaves us with a clearer picture of what's actually going on at scale: that this seemingly complex boarding process is no different than flipping a coin!  
 
 ## Don’t Just Calculate...Simulate!
 At this point, let’s reflect on what we _haven’t_ done:   
