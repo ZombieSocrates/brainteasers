@@ -1,4 +1,4 @@
-import numpy as np
+import random
 import os
 
 def plane_process(N):
@@ -19,14 +19,14 @@ def plane_process(N):
     for passenger in passengers[:-1]:
     	# First passenger always chooses randomly
     	if passenger == 1:
-    		seats.remove(np.random.choice(seats,1).item())
+    		seats.remove(random.choice(seats))
     	else:
     		try:
     			# Any other passenger tries to find his/her seat,
     			seats.index(passenger)
     		except ValueError:
     			# but if occupied, he/she chooses randomly
-    			seats.remove(np.random.choice(seats,1).item())
+    			seats.remove(random.choice(seats))
     		else:
     			seats.remove(passenger)
     	#After a passenger chooses a seat, remove him/her from the list.
