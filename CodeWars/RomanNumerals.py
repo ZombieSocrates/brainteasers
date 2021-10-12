@@ -1,11 +1,11 @@
+import re
+
+
 '''
+Solution to the following:
+
 https://www.codewars.com/kata/51b66044bce5799a7f000003
 '''
-
-
-
-
-import re
 
 class RomanNumerals:
 
