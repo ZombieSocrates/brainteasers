@@ -1,6 +1,11 @@
-import re
-import ipdb
+'''
+https://www.codewars.com/kata/51b66044bce5799a7f000003
+'''
 
+
+
+
+import re
 
 class RomanNumerals:
 
@@ -52,7 +57,7 @@ class RomanNumerals:
             total += self.roman_decode[char]
         return total
 
-   
+
     def replacement_regexes(self):
         '''Compiles regex patterns to find four occurences of I, X, or C 
         preceded by a V, L, or D, respectively. 
