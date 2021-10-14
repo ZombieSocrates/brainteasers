@@ -43,13 +43,18 @@ specific case ...
 
 
 def fib(n):
-    return fib_iter(0, 1, n)
+    return fib_iter(a = 1, b = 0, p = 0, q = 1, times = n)
 
 
-def fib_iter(a, b, times):
+def fib_iter(a, b, p, q, times):
+    '''Doesn't seem that p' = q and q' = p + q
+    '''
+
     if times == 0:
-        return a
-    return fib_iter(b, a + b, times - 1)
+        return b
+    elif times % 2 == 0:
+        return fib_iter(a, b, q, q + p, times / 2)
+    return fib_iter(q * (a + b) + (p * a), b * p  + a *q, p, q, times - 1)
 
 
 
