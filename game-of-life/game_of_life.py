@@ -7,11 +7,15 @@ from typing import List
 
 
 class CellStates(Enum):
+    '''Not certain I see a tremendous amount of bonus value in having this be 
+    an Enum instead of a dictionary, but wanted to experiment.
+    '''
 
     DEAD = 0
     ALIVE = 1
-    WILL_DIE = 2
-    WILL_LIVE = 3
+    DEAD_TO_ALIVE = 2
+    ALIVE_TO_DEAD = 3
+
 
 class GameOfLife(object):
     '''
@@ -30,6 +34,7 @@ class GameOfLife(object):
         self.n_rows = len(self.board)
         self.n_cols = len(self.board[0]) 
         self.cycles_run = 0
+        self.neighbor_lookup = self.make_neighbor_mapping()
 
 
     def is_valid_board(self) -> bool:
@@ -40,12 +45,51 @@ class GameOfLife(object):
         pass
 
 
-    def is_valid_coordinate(self, row_val:int, col_val:int) -> bool:
-        if (row_val < 0) or (col_val) < 0:
+    def is_valid_coordinate(self, row_idx:int, col_idx:int) -> bool:
+        if (row_idx < 0) or (col_idx < 0):
             return False
-        if (row_val >= self.n_rows) or (col_val >= self.n_cols):
+        if (row_idx >= self.n_rows) or (col_idx >= self.n_cols):
             return False
         return True
+
+
+    def _calculate_neighbors(self, row_idx:int, col_idx:int) -> List[tuple]:
+        '''Given an input row and column index, returns a list of tuples with 
+        the coordinates of board cells that are neighbors to this input pair.
+        '''
+        valid_coords = []
+        for row_shift in [-1, 0, 1]:
+            for col_shift in [-1, 0, 1]:
+                if row_shift == 0 and col_shift == 0:
+                    continue
+                new_row = row_idx + row_shift
+                new_col = col_idx + col_shift
+                if self.is_valid_coordinate(new_row, new_col):
+                    valid_coords.append((new_row, new_col))
+        return valid_coords
+
+
+    def make_neighbor_mapping(self) -> dict:
+        '''calculates neighbors for every coordinate on the board and stores 
+        them in a dictionary so we don't have to repeatedly do this on the fly.
+        '''
+        coord_to_neighbors = {}
+        for row_idx in range(self.n_rows):
+            for col_idx in range(self.n_cols):
+                coord_key = (row_idx, col_idx)
+                neighbor_vals = self._calculate_neighbors(row_idx, col_idx)
+                coord_to_neighbors[coord_key] = neighbor_vals
+        return coord_to_neighbors
+
+
+    def get_neighbors(self, row_idx, col_idx) -> List[tuple]:
+        coord_key = (row_idx, col_idx)
+        return self.neighbor_lookup[coord_key]
+
+
+
+        
+
 
 
 if __name__ == "__main__":
@@ -72,11 +116,12 @@ if __name__ == "__main__":
         print(f"\t{state.name}: {state.value}")
 
 
-    for coord in [(0,0), (5,3), (-1, 4), (8,3)]: 
-        row = coord[0]
-        col = coord[1]
-        is_valid = conway.is_valid_coordinate(row_val = row, col_val = col)
-        print(f"Is {coord} valid? {is_valid}")
+    for row_idx in range(conway.n_rows):
+        for col_idx in range(conway.n_cols):
+            neighbors = conway.get_neighbors(row_idx, col_idx)
+            print(f"({row_idx}, {col_idx}):{len(neighbors)} neighbors")
+            pprint(neighbors)
+            print("---------" *5)
 
 
 
