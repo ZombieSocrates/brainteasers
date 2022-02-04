@@ -1,6 +1,6 @@
 import pdb
 
-from collections import Counter
+from collections import Counter, defaultdict
 from enum import Enum
 from pprint import pprint
 from typing import List
@@ -33,8 +33,9 @@ class GameOfLife(object):
         self.board = board
         self.n_rows = len(self.board)
         self.n_cols = len(self.board[0]) 
-        self.cycles_run = 0
+        self.generation_index = 0
         self.neighbor_lookup = self._make_neighbor_mapping()
+        self.generation_stats = defaultdict(dict)
 
 
     def is_valid_board(self) -> bool:
@@ -141,23 +142,45 @@ class GameOfLife(object):
             print(f"This cell is {curr_state}")
             pprint(neighbor_tally)
             print(f"The next state: {self.game_states(next_value).name}")
-            print("---------" *5)
-            pdb.set_trace()
+            print("---------" *5, "\n")
         self.board[row_idx][col_idx] = next_value
 
 
+    def calculate_cell_updates(self, verbose = False):
+        for row_idx in range(self.n_rows):
+            for col_idx in range(self.n_cols):
+                self.update_this_cell(row_idx, col_idx, verbose = verbose)
 
 
+    def execute_cell_updates(self, verbose = False) -> None:
+        '''After we've marked each cell with an update value, we execute the 
+        transitional states of ALIVE_TO_DEAD and DEAD_TO_ALIVE by switching 
+        those board values to 0 and 1, respectively.
 
-        
+        As a sort of debug step, we also retain a record of how many state
+        transitions there were in this "generation" and store that history at 
+        the instance level.
+        '''
+        transition_counter = Counter()
+        for row_idx in range(self.n_rows):
+            for col_idx in range(self.n_cols):
+                cell_value = self.board[row_idx][col_idx]
+                cell_state = self.game_states(cell_value).name
+                if cell_state == "ALIVE_TO_DEAD":
+                    self.board[row_idx][col_idx] = self.game_states.DEAD.value
+                if cell_state == "DEAD_TO_ALIVE":
+                    self.board[row_idx][col_idx] = self.game_states.ALIVE.value
+                transition_counter.update([cell_state])
+        self.generation_stats[self.generation_index] = transition_counter
+        if verbose:
+            print(f"Effects in generation {self.generation_index + 1}")
+            pprint(transition_counter)
 
 
-
-
-
-
-        
-
+    def run_update(self, verbose = False) -> None:
+        self.calculate_cell_updates(verbose = verbose)
+        self.execute_cell_updates(verbose = verbose)
+        self.generation_index += 1
 
 
 if __name__ == "__main__":
@@ -184,10 +207,19 @@ if __name__ == "__main__":
         print(f"\t{state.name}: {state.value}")
     print("--------" * 5, "\n")
 
+    
+    pdb.set_trace()
+    #conway.run_update(verbose = True)
 
-    for row_idx in range(conway.n_rows):
-        for col_idx in range(conway.n_cols):
-            conway.update_this_cell(row_idx, col_idx, verbose = True)
+
+    '''
+    TODO: because we are keeping track of generations, we can stop
+    updating the board when we see don't see transitions happening 
+    for ... say five iterations.
+
+    Manually inspecting this example board, there stops being progress 
+    made after 6 "generations" or so.
+    '''
 
 
 
