@@ -1,6 +1,6 @@
-import math
 import pdb
 
+from collections import Counter
 from enum import Enum
 from pprint import pprint
 from typing import List
@@ -34,7 +34,7 @@ class GameOfLife(object):
         self.n_rows = len(self.board)
         self.n_cols = len(self.board[0]) 
         self.cycles_run = 0
-        self.neighbor_lookup = self.make_neighbor_mapping()
+        self.neighbor_lookup = self._make_neighbor_mapping()
 
 
     def is_valid_board(self) -> bool:
@@ -69,7 +69,7 @@ class GameOfLife(object):
         return valid_coords
 
 
-    def make_neighbor_mapping(self) -> dict:
+    def _make_neighbor_mapping(self) -> dict:
         '''calculates neighbors for every coordinate on the board and stores 
         them in a dictionary so we don't have to repeatedly do this on the fly.
         '''
@@ -77,14 +77,82 @@ class GameOfLife(object):
         for row_idx in range(self.n_rows):
             for col_idx in range(self.n_cols):
                 coord_key = (row_idx, col_idx)
-                neighbor_vals = self._calculate_neighbors(row_idx, col_idx)
-                coord_to_neighbors[coord_key] = neighbor_vals
+                neighbor_coords = self._calculate_neighbors(row_idx, col_idx)
+                coord_to_neighbors[coord_key] = neighbor_coords
         return coord_to_neighbors
 
 
-    def get_neighbors(self, row_idx, col_idx) -> List[tuple]:
+    def get_neighbors(self, row_idx:int, col_idx:int) -> List[tuple]:
+        '''Given an input row and column index, use the lookup attribute 
+        we created to quickly fetch its neighbor 
+        '''
         coord_key = (row_idx, col_idx)
         return self.neighbor_lookup[coord_key]
+
+
+    def tally_neighbor_values(self, row_idx:int, col_idx:int) -> dict:
+        value_tally = Counter()
+        for neighbor_coord in self.get_neighbors(row_idx, col_idx):
+            neighbor_row = neighbor_coord[0]
+            neighbor_col = neighbor_coord[1]
+            neighbor_val = self.board[neighbor_row][neighbor_col]
+            value_tally.update([neighbor_val])
+        return value_tally
+
+
+    def is_cell_alive(self, row_idx:int, col_idx:int) -> bool:
+        '''Returns a boolean flag indicating if the cell is alive in the
+        current cycle. We need to know this to update its value properly.
+        '''
+        curr_val = self.board[row_idx][col_idx]
+        if curr_val == self.game_states.ALIVE.value:
+            return True
+        if curr_val == self.game_states.ALIVE_TO_DEAD.value:
+            return True 
+        return False
+
+
+    def get_new_value(self, is_live_cell:bool, value_tally:dict) -> int:
+        '''Applies the conditions of the game as specified in the problem 
+        description
+        '''
+        n_alive = value_tally[self.game_states.ALIVE.value]
+        n_alive += value_tally[self.game_states.ALIVE_TO_DEAD.value]
+        if is_live_cell: 
+            if (n_alive == 2) or (n_alive == 3):
+                return self.game_states.ALIVE.value
+            return self.game_states.ALIVE_TO_DEAD.value 
+        else:
+            if n_alive == 3:
+                return self.game_states.DEAD_TO_ALIVE.value
+            return self.game_states.DEAD.value
+
+
+    def update_this_cell(self, row_idx: int, col_idx:int, verbose = False) -> None:
+        '''Does not return anything; modifies the cell at row_idx, col_idx to
+        the state it will be for the next cycle.
+        '''
+        currently_alive = self.is_cell_alive(row_idx, col_idx)
+        neighbor_tally = self.tally_neighbor_values(row_idx, col_idx)
+        next_value = self.get_new_value(currently_alive, neighbor_tally)
+        if verbose:
+            curr_value = self.board[row_idx][col_idx]
+            curr_state = self.game_states(curr_value).name
+            print(f"This cell is {curr_state}")
+            pprint(neighbor_tally)
+            print(f"The next state: {self.game_states(next_value).name}")
+            print("---------" *5)
+            pdb.set_trace()
+        self.board[row_idx][col_idx] = next_value
+
+
+
+
+
+        
+
+
+
 
 
 
@@ -109,19 +177,17 @@ if __name__ == "__main__":
     print("Here is the board!!!")
     pprint(conway.board)
     print(f"Board dimensions: ({conway.n_rows, conway.n_cols})")
-    print("-------" * 5)
+    print("-------" * 5, "\n")
 
     print("Here are the finite states of each cell")
     for state in conway.game_states:
         print(f"\t{state.name}: {state.value}")
+    print("--------" * 5, "\n")
 
 
     for row_idx in range(conway.n_rows):
         for col_idx in range(conway.n_cols):
-            neighbors = conway.get_neighbors(row_idx, col_idx)
-            print(f"({row_idx}, {col_idx}):{len(neighbors)} neighbors")
-            pprint(neighbors)
-            print("---------" *5)
+            conway.update_this_cell(row_idx, col_idx, verbose = True)
 
 
 
